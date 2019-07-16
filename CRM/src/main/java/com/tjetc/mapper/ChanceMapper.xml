@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mapper.ChanceMapper" >
+  <resultMap id="BaseResultMap" type="com.tjetc.pojo.Chance" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="chancefrom" property="chancefrom" jdbcType="VARCHAR" />
+    <result column="cusname" property="cusname" jdbcType="VARCHAR" />
+    <result column="successpro" property="successpro" jdbcType="INTEGER" />
+    <result column="outline" property="outline" jdbcType="VARCHAR" />
+    <result column="contacts" property="contacts" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="founder" property="founder" jdbcType="VARCHAR" />
+    <result column="creattime" property="creattime" jdbcType="DATE" />
+    <result column="assigned" property="assigned" jdbcType="VARCHAR" />
+    <result column="assignedtime" property="assignedtime" jdbcType="DATE" />
+    <result column="assignedid" property="assignedid" jdbcType="INTEGER" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from chance
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.tjetc.pojo.Chance" >
+    insert into chance (id, chancefrom, cusname, 
+      successpro, outline, contacts, 
+      phone, description, founder, 
+      creattime, assigned, assignedtime, 
+      assignedid)
+    values (#{id,jdbcType=INTEGER}, #{chancefrom,jdbcType=VARCHAR}, #{cusname,jdbcType=VARCHAR}, 
+      #{successpro,jdbcType=INTEGER}, #{outline,jdbcType=VARCHAR}, #{contacts,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{founder,jdbcType=VARCHAR}, 
+      #{creattime,jdbcType=DATE}, #{assigned,jdbcType=VARCHAR}, #{assignedtime,jdbcType=DATE}, 
+      #{assignedid,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.tjetc.pojo.Chance" >
+    update chance
+    set chancefrom = #{chancefrom,jdbcType=VARCHAR},
+      cusname = #{cusname,jdbcType=VARCHAR},
+      successpro = #{successpro,jdbcType=INTEGER},
+      outline = #{outline,jdbcType=VARCHAR},
+      contacts = #{contacts,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      founder = #{founder,jdbcType=VARCHAR},
+      creattime = #{creattime,jdbcType=DATE},
+      assigned = #{assigned,jdbcType=VARCHAR},
+      assignedtime = #{assignedtime,jdbcType=DATE},
+      assignedid = #{assignedid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, chancefrom, cusname, successpro, outline, contacts, phone, description, 
+    founder, creattime, assigned, assignedtime, assignedid
+    from chance
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, chancefrom, cusname, successpro, outline, contacts, phone, description, 
+    founder, creattime, assigned, assignedtime, assignedid
+    from chance
+  </select>
+</mapper>
