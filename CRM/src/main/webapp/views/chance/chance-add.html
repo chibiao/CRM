@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html class="x-admin-sm">
+  <head>
+    <meta charset="UTF-8">
+    <title>添加营销机会</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="stylesheet" href="/static/css/font.css">
+    <link rel="stylesheet" href="/static/css/xadmin.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/static/js/xadmin.js"></script>
+    <script type="text/javascript" src="/static/js/cookie.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <style>  
+	.x-body{ margin:auto;  width:700px; border:1px solid #F00;text-align:center}
+	/* css注释：为了观察效果设置宽度 边框 高度等样式 */ 
+  </style> 
+  <body>
+    <div class="x-body">
+        <form class="layui-form" action="/chance/add">
+          <div class="layui-form-item">
+              <label for="username" class="layui-form-label">
+                  <span class="x-red"></span>编号
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="id" name="id" required="" lay-verify=""
+                  autocomplete="off" class="layui-input" readonly="readonly" placeholder="自动生成">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>
+              </div>
+              <label for="phone" class="layui-form-label">
+                  <span class="x-red">*</span>机会来源
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="chancefrom" name="chancefrom" required="" 
+                  autocomplete="off" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="L_email" class="layui-form-label">
+                  <span class="x-red">*</span>客户名称
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="cusname" name="cusname" required="" 
+                  autocomplete="off" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>
+              </div>
+              <label for="L_pass" class="layui-form-label">
+                  <span class="x-red">*</span>成功几率
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="successpro" name="successpro" required=""
+                  autocomplete="off" class="layui-input" placeholder="1~100的数字">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="L_repass" class="layui-form-label">
+                  <span class="x-red">*</span>概要
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="outline" name="outline" required=""
+                  autocomplete="off" class="layui-input">
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="L_pass" class="layui-form-label">
+                  <span class="x-red">*</span>联系人
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="contacts" name="contacts" required=""
+                  autocomplete="off" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+              &nbsp;&nbsp;
+              </div>
+              <label for="L_pass" class="layui-form-label">
+                  <span class="x-red">*</span>联系电话
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="phone" name="phone" required="" lay-verify="phone"
+                  autocomplete="off" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="L_pass" class="layui-form-label">
+                  <span class="x-red">*</span>机会描述
+              </label>
+             <div class="layui-input-inline" style="width:515px">
+      			<textarea placeholder="请输入内容" class="layui-textarea" id="description" name="description"></textarea>
+    		 </div>
+              <div class="layui-form-mid layui-word-aux">
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="L_pass" class="layui-form-label">
+                  <span class="x-red"></span>创建人
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="founder" name="founder" required=""
+                  autocomplete="off" class="layui-input" value="当前登陆用户" readonly="readonly">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+              &nbsp;
+              </div>
+              <label for="L_pass" class="layui-form-label">
+                  <span class="x-red">*</span>创建时间
+              </label>
+              <div class="layui-input-inline">
+                  <input type="date" id="creattime" name="creattime" required=""
+                  autocomplete="off" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="L_pass" class="layui-form-label">
+                  <span class="x-red">*</span>指派给
+              </label>
+              <div class="layui-input-inline">
+     			 <select name="assigned" id="assigned" lay-filter="aihao" >
+        		   	<option value=""></option>
+                 	<option value="0">写作</option>
+                 	<option value="1">阅读</option>
+                 	<option value="2">游戏</option>
+                 	<option value="3">音乐</option>
+                 	<option value="4">旅行</option>
+                 </select>
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+              &nbsp;
+              </div>
+              <label for="L_pass" class="layui-form-label">
+                  <span class="x-red">&nbsp;*</span>指派时间
+              </label>
+              <div class="layui-input-inline">
+                  <input type="date" id="creattime" name="creattime" required=""
+                  autocomplete="off" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+              </div>
+          </div>
+ 
+          <div class="layui-form-item">
+              <label for="L_repass" class="layui-form-label">
+              </label>
+              <button  class="layui-btn" lay-filter="add" lay-submit="">
+              	增加
+              </button>
+          </div>
+      </form>
+    </div>
+    <script>
+        layui.use(['form','layer'], function(){
+            $ = layui.jquery;
+          var form = layui.form
+          ,layer = layui.layer;
+          //自定义验证规则
+          form.verify({
+            nikename: function(value){
+              if(value.length < 5){
+                return '昵称至少得5个字符啊';
+              }
+            }
+            ,phone:[/^1(3|4|5|7|8|9)\d{9}$/,'请输入正确的手机号']
+            ,pass: [/(.+){6,12}$/, '密码必须6到12位']
+            ,repass: function(value){
+                if($('#L_pass').val()!=$('#L_repass').val()){
+                    return '两次密码不一致';
+                }
+            }
+          });
+          //监听提交
+          form.on('submit(add)', function(data){
+            console.log(data);
+            //发异步，把数据提交给php
+            layer.alert("增加成功", {icon: 6},function () {
+                // 获得frame索引
+                var index = parent.layer.getFrameIndex(window.name);
+                //关闭当前frame
+                parent.layer.close(index);
+                // 可以对父窗口进行刷新 
+                x_admin_father_reload();
+            });
+            return false;
+          });
+        });
+    </script>
+    <script>var _hmt = _hmt || []; (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();</script>
+  </body>
+
+</html>

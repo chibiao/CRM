@@ -29,12 +29,6 @@
 			<version>1.16.6</version>
 		</dependency>
 		<!-- servlet-api -->
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>2.5</version>
-			<scope>provided</scope>
-		</dependency>
 		<!--mysql驱动 -->
 		<dependency>
 			<groupId>mysql</groupId>
@@ -278,6 +272,8 @@
 				<configuration>
 					<port>8080</port>
 					<path>/</path>
+					<encoding>UTF-8</encoding>
+					<uriEncoding>UTF-8</uriEncoding>
 				</configuration>
 			</plugin>
 		</plugins>

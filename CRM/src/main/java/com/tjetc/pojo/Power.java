@@ -6,25 +6,62 @@ import java.util.List;
 public class Power {
 	private int id; // 一级权限编号
 	private String name; // 一级权限名称
-	List<SecondPower> secondPowers = new ArrayList<>(); // 一级权限所拥有的二级权限
+	private String presource;//资源
+	private Integer parent_id;//二级权限所属id
+	
 
-	public Power(int id, String name, List<SecondPower> secondPowers) {
+	public Power(int id, String name, String presource, Integer parent_id) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.secondPowers = secondPowers;
+		this.presource = presource;
+		this.parent_id = parent_id;
 	}
 
-	public Power(String name, List<SecondPower> secondPowers) {
+
+
+	public Power(String name, String presource, Integer parent_id) {
 		super();
 		this.name = name;
-		this.secondPowers = secondPowers;
+		this.presource = presource;
+		this.parent_id = parent_id;
+		
+	}
+
+	public Power(String name, Integer parent_id) {
+		super();
+		this.name = name;
+		this.parent_id = parent_id;
 	}
 
 	public Power(String name) {
 		super();
 		this.name = name;
 	}
+
+	public String getPresource() {
+		return presource;
+	}
+
+
+
+	public void setPresource(String presource) {
+		this.presource = presource;
+	}
+
+
+
+	public Integer getParent_id() {
+		return parent_id;
+	}
+
+
+
+	public void setParent_id(Integer parent_id) {
+		this.parent_id = parent_id;
+	}
+
+
 
 	public Power() {
 		super();
@@ -46,17 +83,13 @@ public class Power {
 		this.name = name;
 	}
 
-	public List<SecondPower> getSecondPowers() {
-		return secondPowers;
-	}
 
-	public void setSecondPowers(List<SecondPower> secondPowers) {
-		this.secondPowers = secondPowers;
-	}
 
 	@Override
 	public String toString() {
-		return "Power [id=" + id + ", name=" + name + "]";
+		return "Power [id=" + id + ", name=" + name + ", presource=" + presource + ", parent_id=" + parent_id + "]";
 	}
+
+	
 
 }

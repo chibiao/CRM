@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjetc.mapper.SerFpMapper">
+     <!-- <update id="update" parameterType="serfp">
+       update `ser-fp` set cname=#{cname},ftime=#{ftime},fname=#{fname} where id=#{id}     
+    </update> -->
+       <insert id="add" parameterType="serfp">
+            insert into `ser-fp`(id,cname,ftime,fname) values(#{id},#{cname},#{ftime},#{fname})
+        </insert>
+        <!--模糊查询加分页  -->
+    <select id="teaList1" parameterType="map" resultMap="sercjMap">
+	   select * from `ser-cj` where state = 1
+	   <if test="custom!=null and custom!=''">
+	    and custom like '%${custom}%'
+	   </if>
+	    <if test="id!=null and id!=''">
+	     and id like '%${id}%'
+	   </if>
+	   <if test="types!=null and types!=0 and types!=''">
+	     and types =#{types}
+	   </if>	 
+	</select>
+	<resultMap type="serCj" id="sercjMap">
+      <id column="id" property="id"/>
+      <result column="custom" property="custom"/>
+      <result column="description" property="description"/>
+      <result column="types" property="types"/>
+      <association property="serfp" column="id" select="getIdFp"></association>
+    </resultMap>
+    <select id="getIdFp"  resultType="serFp">
+        select * from `ser-fp` where id=#{id}
+    </select>
+	
+	
+	 <!--判断fp对象是否为空-->
+    <select id="getFp" parameterType="string" resultType="serfp">
+        select * from `ser-fp` where id=#{id}
+    </select>
+     <update id="updateFp" parameterType="serfp">
+        update `ser-fp` set cname=#{cname},ftime=#{ftime},fname=#{fname} where id=#{id}
+    </update>
+        
+</mapper>

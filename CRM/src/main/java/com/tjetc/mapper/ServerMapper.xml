@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjetc.mapper.ServerMapper">
+	<select id="sel" parameterType="String" resultType="serSel">
+	   select tname,count(*) tsum from `ser-cj` c,`ser-type` t where c.types=t.id
+	   		<if test="value!=null and value!=''">
+	   			and ctime like '%${value}%'
+	   		</if>
+	   GROUP BY types
+	</select>
+	<select id="sel2" resultType="serSel">
+	   select tname,count(*) tsum,ctime from `ser-cj` c,`ser-type` t where c.types=t.id GROUP BY types,ctime
+	</select>
+</mapper>

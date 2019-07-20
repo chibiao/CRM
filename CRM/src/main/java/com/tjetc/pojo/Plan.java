@@ -2,6 +2,10 @@ package com.tjetc.pojo;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 /*
  * 发展计划
  */
@@ -13,9 +17,21 @@ public class Plan {
 	// 计划项
 	private String plan;
 	// 计划时间
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date plantime;
 	// 计划反馈
 	private String planback;
+	//发展计划的状态
+	private Boolean state;
+
+	public Boolean getState() {
+		return state;
+	}
+
+	public void setState(Boolean state) {
+		this.state = state;
+	}
 
 	public Integer getId() {
 		return id;
@@ -56,4 +72,12 @@ public class Plan {
 	public void setPlanback(String planback) {
 		this.planback = planback == null ? null : planback.trim();
 	}
+
+	@Override
+	public String toString() {
+		return "Plan [id=" + id + ", cusid=" + cusid + ", plan=" + plan
+				+ ", plantime=" + plantime + ", planback=" + planback
+				+ ", state=" + state + "]";
+	}
+	
 }

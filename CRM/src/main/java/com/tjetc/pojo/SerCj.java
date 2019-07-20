@@ -4,9 +4,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class SerCj {
-    private Integer id;//编号（自动生成）
+    private String id;//编号（自动生成）uid
 
-    private String types;//服务类型
+    private Integer types;//服务类型
 
     private String description;//概要
 
@@ -20,12 +20,20 @@ public class SerCj {
 
     private String req;//服务请求  富文本编辑
     
+    private SerCl sercl;
+    
+    private SerFp serfp;
 
-    public SerCj() {
+    private SerResult serresult;
+    
+    
+	public SerCj(SerResult serresult) {
 		super();
+		this.serresult = serresult;
 	}
 
-	public SerCj(Integer id, String types, String description, String custom, Integer state, String cname, String ctime,
+
+	public SerCj(String id, Integer types, String description, String custom, Integer state, String cname, String ctime,
 			String req) {
 		super();
 		this.id = id;
@@ -38,8 +46,157 @@ public class SerCj {
 		this.req = req;
 	}
 
-	public SerCj(String types, String description, String custom, Integer state, String cname, String ctime,
-			String req) {
+
+	public SerCj(String id, Integer types, String description, String custom, Integer state, String cname, String ctime,
+			String req, SerCl sercl, SerFp serfp, SerResult serresult) {
+		super();
+		this.id = id;
+		this.types = types;
+		this.description = description;
+		this.custom = custom;
+		this.state = state;
+		this.cname = cname;
+		this.ctime = ctime;
+		this.req = req;
+		this.sercl = sercl;
+		this.serfp = serfp;
+		this.serresult = serresult;
+	}
+
+
+	public SerResult getSerresult() {
+		return serresult;
+	}
+
+
+	public void setSerresult(SerResult serresult) {
+		this.serresult = serresult;
+	}
+
+
+	public String getId() {
+		return id;
+	}
+
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+
+	public Integer getTypes() {
+		return types;
+	}
+
+
+	public void setTypes(Integer types) {
+		this.types = types;
+	}
+
+
+	public String getDescription() {
+		return description;
+	}
+
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+
+	public String getCustom() {
+		return custom;
+	}
+
+
+	public void setCustom(String custom) {
+		this.custom = custom;
+	}
+
+
+	public Integer getState() {
+		return state;
+	}
+
+
+	public void setState(Integer state) {
+		this.state = state;
+	}
+
+
+	public String getCname() {
+		return cname;
+	}
+
+
+	public void setCname(String cname) {
+		this.cname = cname;
+	}
+
+
+	public String getCtime() {
+		return ctime;
+	}
+
+
+	public void setCtime(String ctime) {
+		this.ctime = ctime;
+	}
+
+
+	public String getReq() {
+		return req;
+	}
+
+
+	public void setReq(String req) {
+		this.req = req;
+	}
+
+
+	public SerCl getSercl() {
+		return sercl;
+	}
+
+
+	public void setSercl(SerCl sercl) {
+		this.sercl = sercl;
+	}
+
+
+	public SerFp getSerfp() {
+		return serfp;
+	}
+
+
+	public void setSerfp(SerFp serfp) {
+		this.serfp = serfp;
+	}
+
+
+	public SerCj() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
+	public SerCj(String id, Integer types, String description, String custom, Integer state, String cname, String ctime,
+			String req, SerCl sercl, SerFp serfp) {
+		super();
+		this.id = id;
+		this.types = types;
+		this.description = description;
+		this.custom = custom;
+		this.state = state;
+		this.cname = cname;
+		this.ctime = ctime;
+		this.req = req;
+		this.sercl = sercl;
+		this.serfp = serfp;
+	}
+
+	public SerCj(Integer types, String description, String custom, Integer state, String cname, String ctime,
+			String req, SerCl sercl, SerFp serfp) {
 		super();
 		this.types = types;
 		this.description = description;
@@ -48,76 +205,18 @@ public class SerCj {
 		this.cname = cname;
 		this.ctime = ctime;
 		this.req = req;
+		this.sercl = sercl;
+		this.serfp = serfp;
 	}
 
-	public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getTypes() {
-        return types;
-    }
-
-    public void setTypes(String types) {
-        this.types = types == null ? null : types.trim();
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
-    }
-
-    public String getCustom() {
-        return custom;
-    }
-
-    public void setCustom(String custom) {
-        this.custom = custom == null ? null : custom.trim();
-    }
-
-    public Integer getState() {
-        return state;
-    }
-
-    public void setState(Integer state) {
-        this.state = state;
-    }
-
-    public String getCname() {
-        return cname;
-    }
-
-    public void setCname(String cname) {
-        this.cname = cname == null ? null : cname.trim();
-    }
-
-    public String getCtime() {
-        return ctime;
-    }
-
-    public void setCtime(String ctime) {
-        this.ctime = ctime == null ? null : ctime.trim();
-    }
-
-    public String getReq() {
-        return req;
-    }
-
-    public void setReq(String req) {
-        this.req = req == null ? null : req.trim();
-    }
 
 	@Override
 	public String toString() {
 		return "SerCj [id=" + id + ", types=" + types + ", description=" + description + ", custom=" + custom
-				+ ", state=" + state + ", cname=" + cname + ", ctime=" + ctime + ", req=" + req + "]";
+				+ ", state=" + state + ", cname=" + cname + ", ctime=" + ctime + ", req=" + req + ", sercl=" + sercl
+				+ ", serfp=" + serfp + ", serresult=" + serresult + "]";
 	}
     
-}
+    
+
+  }

@@ -26,13 +26,27 @@
       planback = #{planback,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <update id="changeState" parameterType="Integer" >
+    update plan
+    set state = true
+    where id = #{id,jdbcType=INTEGER}
+  </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select id, cusid, plan, plantime, planback
+    select id, cusid, plan, plantime, planback,state
     from plan
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select id, cusid, plan, plantime, planback
+    select id, cusid, plan, plantime, planback,state
     from plan
+  </select>
+  <select id="planList" parameterType="Integer" resultMap="BaseResultMap" >
+    select id, cusid, plan, plantime, planback,state
+    from plan where cusid=#{id}
+  </select>
+  <select id="chanceList" resultType="chance" >
+    select id, chancefrom, cusname, successpro, outline, contacts, phone, description, 
+    founder, creattime, assigned, assignedtime, assignedid
+    from chance where assignedid is not null
   </select>
 </mapper>

@@ -1,61 +1,57 @@
 package com.tjetc.pojo;
 
 public class Profile {
-	//db.properties配置文件的id
-    private Integer id;
-    //数据库用户名
-    private String name;
-    //数据库用户的密码
-    private String password;
-    //用的数据库名
-    private String url;
-    //数据库ip地址
-    private String driver;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url == null ? null : url.trim();
-    }
-
-    public String getDriver() {
-        return driver;
-    }
-
-    public void setDriver(String driver) {
-        this.driver = driver == null ? null : driver.trim();
-    }
-
+	private int id;
+	private String name;
+	private String password;
+	private String url;
+	private String driver;
+	
+	public Profile(int id, String name, String password, String url, String driver) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.password = password;
+		this.url = url;
+		this.driver = driver;
+	}
+	public Profile() {
+		super();
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getUrl() {
+		return url;
+	}
+	public void setUrl(String url) {
+		this.url = url;
+	}
+	public String getDriver() {
+		return driver;
+	}
+	public void setDriver(String driver) {
+		this.driver = driver;
+	}
 	@Override
 	public String toString() {
 		return "Profile [id=" + id + ", name=" + name + ", password=" + password + ", url=" + url + ", driver=" + driver
 				+ "]";
 	}
-    
+	
 }

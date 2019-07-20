@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjetc.mapper.CusContactMapper">
+    <insert id="addContact" parameterType="com.tjetc.pojo.CusContact">
+        insert into cus_contact(condate,conAddr,conIfno,conRemark,cid) values(#{condate},#{conAddr},#{conIfno},#{conRemark},#{cid})
+    </insert> 
+	<delete id="delContact" parameterType="java.lang.Integer" >
+    	delete from cus_contact
+    	where conid = #{conid,jdbcType=INTEGER}
+  	</delete>
+    <select id="getById" resultType="com.tjetc.pojo.CusContact" parameterType="java.lang.Integer" >
+    select *
+    from cus_contact
+    where conid = #{conid}
+  	</select>
+  	<update id="update" parameterType="com.tjetc.pojo.CusContact" >
+    update cus_contact
+    <set >
+      <if test="condate != null" >
+        condate = #{condate,jdbcType=VARCHAR},
+      </if>
+      <if test="conAddr != null" >
+        conAddr = #{conAddr,jdbcType=INTEGER},
+      </if>
+      <if test="conIfno != null" >
+        conIfno = #{conIfno,jdbcType=VARCHAR},
+      </if>
+      <if test="conRemark != null" >
+        conRemark = #{conRemark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where conid = #{conid,jdbcType=INTEGER}
+  </update>
+  <!-- parameterType="int" -->
+  	 <select id="listContact" parameterType="com.tjetc.pojo.CusContact" resultMap="classMap">
+	   select ct.conid conid,ct.condate,ct.conAddr conAddr,ct.conIfno conIfno,ct.conRemark conRemark,cu.cusId,cu.cusName from cus_contact ct,customer cu where ct.cid=cu.id and ct.conAddr like "%${conAddr}%" and cu.id=#{cid} 
+	</select>
+	<resultMap type="com.tjetc.pojo.Customer" id="classMap">
+	  <id column="id" property="id"/>
+	  <result column="cusId" property="cusid"/>
+	  <result column="cusName" property="cusname"/>
+	  <collection property="cuscontacts" ofType="com.tjetc.pojo.CusContact" resultMap="contactMap" ></collection>
+	  </resultMap>  
+	  <resultMap type="com.tjetc.pojo.CusContact" id="contactMap">
+	  <id column="conid" property="conid" />
+	  <result column="condate" property="condate" />
+	  <result column="conAddr" property="conAddr" />
+	  <result column="conIfno" property="conIfno" />
+	  <result column="conRemark" property="conRemark" />
+	  </resultMap>
+</mapper>

@@ -11,6 +11,17 @@ public class PageVo {
 	private int page;
 	// 要查询的记录条数
 	private int limit;
+	
+	//查询使用的keyword
+	private String keyword;
+	
+	public String getKeyword() {
+		return keyword;
+	}
+
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
 
 	public int getPage() {
 		return page;
@@ -27,5 +38,12 @@ public class PageVo {
 	public void setLimit(int limit) {
 		this.limit = limit;
 	}
+
+	@Override
+	public String toString() {
+		return "PageVo [page=" + page + ", limit=" + limit + ", keyword="
+				+ keyword + "]";
+	}
+	
 
 }

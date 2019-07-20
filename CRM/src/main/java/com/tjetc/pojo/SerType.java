@@ -1,12 +1,12 @@
 package com.tjetc.pojo;
 
 public class SerType {
-    private int id;
+    private String id;
     private String tname;
 	public SerType() {
 		super();
 	}
-	public SerType(int id, String tname) {
+	public SerType(String id, String tname) {
 		super();
 		this.id = id;
 		this.tname = tname;
@@ -15,13 +15,13 @@ public class SerType {
 		super();
 		this.tname = tname;
 	}
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 	public String getTname() {
 		return tname;
 	}
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public void setTname(String tname) {
@@ -31,5 +31,5 @@ public class SerType {
 	public String toString() {
 		return "SerType [id=" + id + ", tname=" + tname + "]";
 	}
-    
+	
 }

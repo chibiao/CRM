@@ -6,29 +6,55 @@ import java.util.List;
 public class Role {
 	private int id; // 角色编号
 	private String name; // 角色名称
+	private String des;//角色描述
 	private List<Power> powers = new ArrayList<>(); // 角色所拥有的一级权限
 
-	public Role(int id, String name, List<Power> powers) {
+	public Role(int id, String name, String des, List<Power> powers) {
 		super();
 		this.id = id;
 		this.name = name;
+		this.des = des;
 		this.powers = powers;
 	}
 
-	public Role(String name, List<Power> powers) {
+	
+
+	public Role(String name, String des, List<Power> powers) {
 		super();
 		this.name = name;
+		this.des = des;
 		this.powers = powers;
 	}
+
+	public Role(String name, String des) {
+		super();
+		this.name = name;
+		this.des = des;
+	}
+	
 
 	public Role(String name) {
 		super();
 		this.name = name;
 	}
 
+
+
 	public Role() {
 		super();
 	}
+
+	public String getDes() {
+		return des;
+	}
+
+
+
+	public void setDes(String des) {
+		this.des = des;
+	}
+
+
 
 	public int getId() {
 		return id;
@@ -56,7 +82,7 @@ public class Role {
 
 	@Override
 	public String toString() {
-		return "Role [id=" + id + ", name=" + name + "]";
+		return "Role [id=" + id + ", name=" + name + ", des=" + des + ", powers=" + powers + "]";
 	}
 
 }

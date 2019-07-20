@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjetc.mapper.SerClMapper">
+<!--判断cl对象是否为空-->
+    <select id="getCl" parameterType="string" resultType="sercl">
+        select * from `ser-cl` where id=#{id}
+    </select>
+     <update id="updateCl" parameterType="sercl">
+        update `ser-cl` set handle=#{handle},clname=#{clname},cltime=#{cltime} where id=#{id}
+    </update>
+    
+    <insert id="add" parameterType="sercl">
+            insert into `ser-cl`(id,handle,clname,cltime) values(#{id},#{handle},#{clname},#{cltime})
+        </insert>
+        
+        
+        <!--zxt-->
+        <select id="list" resultMap="serclMap">
+			select * from `ser-cl` 
+		</select>
+		<resultMap type="sercl" id="serclMap">
+			<id column="id" property="id"/>
+			<result column="clname" property="clname"/>
+			<result column="cltime" property="cltime"/>
+		</resultMap>
+</mapper>

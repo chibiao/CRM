@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjetc.mapper.TableMapper">
+  <!--list列表  -->
+  <select id="listLostReason" parameterType="LostReason" resultType="LostReason">
+    select lr.name,count(*) from lostReason lr,cus_lost cl where cl.lrid=lr.id
+  </select>
+ <!--根据id查数量  -->
+	  <select id="getcount1" parameterType="int" resultType="int">
+	    select count(*) from cus_lost where lrid=1
+	  </select>
+	    <select id="getcount2" parameterType="int" resultType="int">
+	    select count(*) from cus_lost where lrid=2
+	  </select>
+	    <select id="getcount3" parameterType="int" resultType="int">
+	    select count(*) from cus_lost where lrid=3
+	  </select>
+	    <select id="getcount4" parameterType="int" resultType="int">
+	    select count(*) from cus_lost where lrid=4
+	  </select>
+ <!--根据年份查数量  -->
+     <!--原因1  2019 2018 2017 2016  -->
+      <select id="selectByYear11" parameterType="int" resultType="int">
+         select count(*) from cus_lost
+          where lrid=1 and lastTime between '2018/12/31 00:00:00' and '2019/12/31 00:00:00'
+      </select>
+      <select id="selectByYear12" parameterType="int" resultType="int">
+         select count(*) from cus_lost
+          where lrid=1 and lastTime between '2017/12/31 00:00:00' and '2018/12/31 00:00:00'
+      </select>
+      <select id="selectByYear13" parameterType="int" resultType="int">
+         select count(*) from cus_lost
+          where lrid=1 and lastTime between '2016/12/31 00:00:00' and '2017/12/31 00:00:00'
+      </select>
+     <!--原因2  2019 2018 2017 2016  -->
+      <select id="selectByYear21" parameterType="int" resultType="int">
+         select count(*) from cus_lost
+          where lrid=2 and lastTime between '2018/12/31 00:00:00' and '2019/12/31 00:00:00'
+      </select>
+      <select id="selectByYear22" parameterType="int" resultType="int">
+         select count(*) from cus_lost
+          where lrid=2 and lastTime between '2017/12/31 00:00:00' and '2018/12/31 00:00:00'
+      </select>
+      <select id="selectByYear23" parameterType="int" resultType="int">
+         select count(*) from cus_lost
+          where lrid=2 and lastTime between '2016/12/31 00:00:00' and '2017/12/31 00:00:00'
+      </select>
+      <!--原因3  2019 2018 2017 2016  -->
+      <select id="selectByYear31" parameterType="int" resultType="int">
+         select count(*) from cus_lost
+          where lrid=3 and lastTime between '2018/12/31 00:00:00' and '2019/12/31 00:00:00'
+      </select>
+      <select id="selectByYear32" parameterType="int" resultType="int">
+         select count(*) from cus_lost
+          where lrid=3 and lastTime between '2017/12/31 00:00:00' and '2018/12/31 00:00:00'
+      </select>
+      <select id="selectByYear33" parameterType="int" resultType="int">
+         select count(*) from cus_lost
+          where lrid=3 and lastTime between '2016/12/31 00:00:00' and '2017/12/31 00:00:00'
+      </select>
+       <!--原因4  2019 2018 2017 2016  -->
+      <select id="selectByYear41" parameterType="int" resultType="int">
+         select count(*) from cus_lost
+          where lrid=4 and lastTime between '2018/12/31 00:00:00' and '2019/12/31 00:00:00'
+      </select>
+      <select id="selectByYear42" parameterType="int" resultType="int">
+         select count(*) from cus_lost
+          where lrid=4 and lastTime between '2017/12/31 00:00:00' and '2018/12/31 00:00:00'
+      </select>
+      <select id="selectByYear43" parameterType="int" resultType="int">
+         select count(*) from cus_lost
+          where lrid=4 and lastTime between '2016/12/31 00:00:00' and '2017/12/31 00:00:00'
+      </select>
+ <!--查cus_lost表，多条件查询  -->
+      <select id="list" parameterType="cuslost" resultType="cuslost">
+      select cl.lostid,cl.lastTime,l.name lname,c.cusName cname,u.`name` cmname
+      from cus_lost cl,lostReason l,customer c,`user` u
+        <where>
+	        <if test="cname!=null and cname!=''">
+	          and c.cusName like '%${cname}%'
+	        </if>
+	        <if test="cmname!=null and cmname!=''">
+	          and u.name like '%${cmname}%'
+	        </if>
+	          and cl.lrid=l.id  and cl.cid=c.id and c.cusManagerId=u.id
+	     </where>
+      </select>
+</mapper>

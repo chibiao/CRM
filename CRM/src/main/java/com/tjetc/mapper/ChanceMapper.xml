@@ -20,7 +20,7 @@
     delete from chance
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.tjetc.pojo.Chance" >
+  <insert id="insert" parameterType="com.tjetc.pojo.Chance" useGeneratedKeys="true" keyColumn="id">
     insert into chance (id, chancefrom, cusname, 
       successpro, outline, contacts, 
       phone, description, founder, 
@@ -54,9 +54,22 @@
     from chance
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <sql id="where_sql">
+        <where>
+            <if test="keyword !=null and keyword !=''">
+                and cusname like concat('%',#{keyword},'%')
+                or founder like concat('%',#{keyword},'%')
+                or contacts like concat('%',#{keyword},'%')
+            </if>
+        </where>
+    </sql>
   <select id="selectAll" resultMap="BaseResultMap" >
     select id, chancefrom, cusname, successpro, outline, contacts, phone, description, 
     founder, creattime, assigned, assignedtime, assignedid
     from chance
+    <include refid="where_sql"/>
+  </select>
+  <select id="selectUser" resultType="user" >
+    select * from user where id in(select uid FROM user_role_rel where rid=3)
   </select>
 </mapper>

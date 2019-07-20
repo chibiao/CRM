@@ -4,24 +4,78 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class SerCl {
-    private Integer id;//编号
+    private String id;//编号uid
 
     private String clname;//处理人（客户经理）
 
     private String cltime = new SimpleDateFormat("yyyy-MM-dd").format(new Date());//处理时间
 
     private String handle;//服务处理  富文本编辑
+    
+    private SerCj sercj;
 
-    public SerCl() {
-		super();
+	
+
+	public String getId() {
+		return id;
 	}
 
-	public SerCl(Integer id, String clname, String cltime, String handle) {
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getClname() {
+		return clname;
+	}
+
+	public void setClname(String clname) {
+		this.clname = clname;
+	}
+
+	public String getCltime() {
+		return cltime;
+	}
+
+	public void setCltime(String cltime) {
+		this.cltime = cltime;
+	}
+
+	public String getHandle() {
+		return handle;
+	}
+
+	public void setHandle(String handle) {
+		this.handle = handle;
+	}
+
+	public SerCj getSercj() {
+		return sercj;
+	}
+
+	public void setSercj(SerCj sercj) {
+		this.sercj = sercj;
+	}
+
+	public SerCl() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public SerCl(String id, String clname, String cltime, String handle) {
 		super();
 		this.id = id;
 		this.clname = clname;
 		this.cltime = cltime;
 		this.handle = handle;
+	}
+
+	public SerCl(String id, String clname, String cltime, String handle, SerCj sercj) {
+		super();
+		this.id = id;
+		this.clname = clname;
+		this.cltime = cltime;
+		this.handle = handle;
+		this.sercj = sercj;
 	}
 
 	public SerCl(String clname, String cltime, String handle) {
@@ -30,42 +84,8 @@ public class SerCl {
 		this.cltime = cltime;
 		this.handle = handle;
 	}
+    
+	
 
-	public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getClname() {
-        return clname;
-    }
-
-    public void setClname(String clname) {
-        this.clname = clname == null ? null : clname.trim();
-    }
-
-    public String getCltime() {
-        return cltime;
-    }
-
-    public void setCltime(String cltime) {
-        this.cltime = cltime == null ? null : cltime.trim();
-    }
-
-    public String getHandle() {
-        return handle;
-    }
-
-    public void setHandle(String handle) {
-        this.handle = handle == null ? null : handle.trim();
-    }
-
-	@Override
-	public String toString() {
-		return "SerCl [id=" + id + ", clname=" + clname + ", cltime=" + cltime + ", handle=" + handle + "]";
-	}
     
 }

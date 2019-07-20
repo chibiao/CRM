@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://shiro.apache.org/tags" prefix="shiro" %>
 <!doctype html>
 <html  class="x-admin-sm">
 <head>
 	<meta charset="UTF-8">
-	<title>客户管理系统</title>
+	<title id="tit">客户管理系统</title>
 	<meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
@@ -18,14 +19,25 @@
     <script type="text/javascript" src="static/js/xadmin.js"></script>
     <script type="text/javascript" src="static/js/cookie.js"></script>
     <script>
-        // 是否开启刷新记忆tab功能
-        // var is_remember = false;
+        $(function(){
+        	$.get(
+    				"websystem/message",
+    				{},
+    				function(d){
+    					$("#tit").html(d.title);
+    					$("#name").html("<img style='width:30px;height:30px;padding:5px;' src='../../"+d.syslogoip+"'>"+d.systemname);
+    					$("#copyright").html(d.copyright);
+    					
+    				},
+    				"json"
+    			)
+        })
     </script>
 </head>
 <body>
     <!-- 顶部开始 -->
     <div class="container">
-        <div class="logo"><a href="./index.html">客户管理系统</a></div>
+        <div class="logo"><a href="./index.html"><span id="name">客户管理系统</span></a></div>
         <div class="left_open">
             <i title="展开左侧栏" class="iconfont">&#xe699;</i>
         </div>
@@ -42,11 +54,11 @@
         </ul>
         <ul class="layui-nav right" lay-filter="">
           <li class="layui-nav-item">
-            <a href="javascript:;">admin</a>
+            <a href="javascript:;"><shiro:principal property="name" /></a>
             <dl class="layui-nav-child"> <!-- 二级菜单 -->
               <dd><a onclick="x_admin_show('个人信息','http://www.baidu.com')">个人信息</a></dd>
               <dd><a onclick="x_admin_show('切换帐号','http://www.baidu.com')">切换帐号</a></dd>
-              <dd><a href="./login.html">退出</a></dd>
+              <dd><a href="/logout">退出</a></dd>
             </dl>
           </li>
           <li class="layui-nav-item to-index"><a href="/">前台首页</a></li>
@@ -59,6 +71,7 @@
     <div class="left-nav">
       <div id="side-nav">
         <ul id="nav">
+        <shiro:hasPermission name="marketing:index">
             <li>
                 <a href="javascript:;">
                     <i class="iconfont">&#xe6b8;</i>
@@ -67,14 +80,14 @@
                 </a>
                 <ul class="sub-menu">
                     <li date-refresh="1">
-                        <a _href="member-list.html">
+                        <a _href="/views/chance/ManageSales.jsp">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>营销机会管理</cite>
                             
                         </a>
                     </li >
                     <li>
-                        <a _href="member-list1.html">
+                        <a _href="/plan/getManager">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>客户开发计划</cite>
                             
@@ -82,6 +95,8 @@
                     </li >
                 </ul>
             </li>
+            </shiro:hasPermission>
+            <shiro:hasPermission name="customer:index">
             <li>
                 <a href="javascript:;">
                     <i class="iconfont">&#xe723;</i>
@@ -90,19 +105,23 @@
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a _href="order-list.html">
+                        <a _href="/CustomerController/list?page=1&limit=5">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>客户信息管理</cite>
                         </a>
                     </li >
+                    <shiro:hasRole name="3">
                     <li>
-                        <a _href="order-list.html">
+                        <a _href="views/customer/lostlist.jsp">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>客户流失管理</cite>
                         </a>
                     </li >
+                    </shiro:hasRole>
                 </ul>
             </li>
+            </shiro:hasPermission>
+            <shiro:hasPermission name="server:index">
             <li>
                 <a href="javascript:;">
                     <i class="iconfont">&#xe723;</i>
@@ -110,38 +129,76 @@
                     <i class="iconfont nav_right">&#xe697;</i>
                 </a>
                 <ul class="sub-menu">
+                 <shiro:hasPermission name="service:create">
                     <li>
-                        <a _href="cate.html">
+                        <a _href="sercj/save">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>服务创建</cite>
                         </a>
                     </li >
+                    </shiro:hasPermission>
+                    <shiro:hasPermission name="service:give">
                     <li>
-                        <a _href="cate.html">
+                        <a _href="sercj/list">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>服务分配</cite>
                         </a>
                     </li >
+                    </shiro:hasPermission>
+                    <shiro:hasPermission name="service:handle">
                     <li>
-                        <a _href="cate.html">
+                        <a _href="sercj/fplist">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>服务处理</cite>
                         </a>
                     </li >
+                    </shiro:hasPermission>
+                     <shiro:hasPermission name="service:feedback">
                     <li>
-                        <a _href="cate.html">
+                        <a _href="service/list">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>服务反馈</cite>
                         </a>
                     </li >
+                    </shiro:hasPermission>
+                     <shiro:hasPermission name="service:file">
                     <li>
-                        <a _href="cate.html">
+                        <a _href="service/listGuidang">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>服务归档</cite>
                         </a>
                     </li >
+                    </shiro:hasPermission>
                 </ul>
             </li>
+            </shiro:hasPermission>
+            <shiro:hasPermission name="offer:index">
+            <li>
+                <a href="javascript:;">
+                    <i class="iconfont">&#xe723;</i>
+                    <cite>报价管理</cite>
+                    <i class="iconfont nav_right">&#xe697;</i>
+                </a>
+                <ul class="sub-menu">
+                	<shiro:hasRole name="3">
+                    <li>
+                        <!-- <a _href="views/offer/offerAdd.jsp"> -->
+                        <a _href="http://localhost:8080/offer/gotoAddOffer">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>报价创建</cite>
+                        </a>
+                    </li>
+                    </shiro:hasRole>
+                    <li>
+                        <a _href="views/offer/offerList.jsp">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>报价列表</cite>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+           	</shiro:hasPermission>
+           	<shiro:hasPermission name="forms:index">
             <li>
                 <a href="javascript:;">
                     <i class="iconfont">&#xe723;</i>
@@ -150,37 +207,34 @@
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a _href="city.html">
+                        <a _href="views/Count-table/CustomerOrders.jsp">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>客户贡献分析</cite>
                         </a>
                     </li >
                     <li>
-                        <a _href="city.html">
+                       <a _href="views/Count-table/customer-constitute.jsp">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>客户构成分析</cite>
-                        </a>
-                    </li >
+                       </a>
+                    </li>
                     <li>
-                        <a _href="city.html">
+                        <a _href="views/Count-table/SS.jsp">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>客户服务分析</cite>
                         </a>
                     </li >
                     <li>
-                        <a _href="city.html">
+                         <a _href="views/Count-table/table_userlost.jsp">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>客户流失分析</cite>
                         </a>
                     </li >
-                    <li>
-                        <a _href="city.html">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>客户贡献分析</cite>
-                        </a>
-                    </li >
+                   
                 </ul>
             </li>
+            </shiro:hasPermission>
+            <shiro:hasPermission name="data:index">
             <li>
                 <a href="javascript:;">
                     <i class="iconfont">&#xe726;</i>
@@ -188,26 +242,16 @@
                     <i class="iconfont nav_right">&#xe697;</i>
                 </a>
                 <ul class="sub-menu">
-                    <li>
-                        <a _href="admin-list.html">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>数据字典管理</cite>
-                        </a>
-                    </li >
-                    <li>
-                        <a _href="admin-role.html">
+                     <li>
+                        <a _href="views/Goods.jsp">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>查询产品信息</cite>
                         </a>
                     </li >
-                    <li>
-                        <a _href="admin-cate.html">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>查询库存</cite>
-                        </a>
-                    </li >
                 </ul>
             </li>
+            </shiro:hasPermission>
+            <shiro:hasPermission name="power:index">
             <li>
                 <a href="javascript:;">
                     <i class="iconfont">&#xe6ce;</i>
@@ -216,25 +260,27 @@
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a _href="echarts1.html">
+                        <a _href="/views/user/userAdmin.jsp">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>用户管理</cite>
                         </a>
                     </li >
                     <li>
-                        <a _href="echarts2.html">
+                        <a _href="/views/role/user-list.jsp">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>角色管理</cite>
                         </a>
                     </li>
                     <li>
-                        <a _href="echarts3.html">
+                        <a _href="/power/list">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>权限分配</cite>
                         </a>
                     </li>
                 </ul>
             </li>
+             </shiro:hasPermission>
+             <shiro:hasPermission name="news:index">
             <li>
                 <a href="javascript:;">
                     <i class="iconfont">&#xe6b4;</i>
@@ -243,19 +289,27 @@
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a _href="unicode.html">
+                        <a _href="/views/newsType/img-list.jsp">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>轮播管理</cite>
                         </a>
                     </li>
                     <li>
-                        <a _href="unicode.html">
+                        <a _href="/views/newsType/typeone-list.jsp">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>新闻分类管理</cite>
+                        </a>
+                    </li>
+                    <li>
+                        <a _href="views/news.jsp">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>新闻管理</cite>
                         </a>
                     </li>
                 </ul>
             </li>
+             </shiro:hasPermission>
+             <shiro:hasPermission name="system:index">
             <li>
                 <a href="javascript:;">
                     <i class="iconfont">&#xe6b4;</i>
@@ -264,25 +318,26 @@
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a href="login.html" target="_blank">
+                        <a _href="websystem/show?m=show" target="_blank">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>自定义设置</cite>
                         </a>
                     </li>
                     <li>
-                        <a _href="error.html">
+                        <a _href="views/datasource/dataSourceManager.jsp">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>数据库管理</cite>
                         </a>
                     </li>
                     <li>
-                        <a _href="error.html">
+                        <a _href="client/proshow">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>数据库连接设置</cite>
                         </a>
                     </li>
                 </ul>
             </li>
+            </shiro:hasPermission>
         </ul>
       </div>
     </div>
@@ -314,7 +369,7 @@
     <!-- 中部结束 -->
     <!-- 底部开始 -->
     <div class="footer">
-        <div class="copyright">Copyright ©2017 x-admin v2.3 All Rights Reserved</div>  
+        <div class="copyright"><span id="copyright">Copyright ©2017 x-admin</span><!-- Copyright ©2017 x-admin --> v2.3 All Rights Reserved</div>  
     </div>
     <!-- 底部结束 -->
     <script>

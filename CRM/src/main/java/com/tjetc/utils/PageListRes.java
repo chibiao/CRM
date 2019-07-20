@@ -1,31 +1,48 @@
 package com.tjetc.utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PageListRes {
-	// 返回的状态 成功状态为0
-	private int code;
-	// 返回的信息
+	private String status = "200";
+	private int code = 0;
+	private String message = "";
 	private String msg;
-	// 返回的数据总数量
+	private Long total;
 	private long count;
-	// 返回的数据
-	private List<?> data;
+	private List<?> rows = new ArrayList();
+	private List<?> data = new ArrayList();
 
-	public int getCode() {
-		return code;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setCode(int code) {
-		this.code = code;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
-	public String getMsg() {
-		return msg;
+	public String getMessage() {
+		return message;
 	}
 
-	public void setMsg(String msg) {
-		this.msg = msg;
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public Long getTotal() {
+		return total;
+	}
+
+	public void setTotal(Long total) {
+		this.total = total;
+	}
+
+	public List<?> getRows() {
+		return rows;
+	}
+
+	public void setRows(List<?> rows) {
+		this.rows = rows;
 	}
 
 	public long getCount() {
@@ -36,11 +53,27 @@ public class PageListRes {
 		this.count = count;
 	}
 
+	public int getCode() {
+		return code;
+	}
+
+	public void setCode(int code) {
+		this.code = code;
+	}
+
 	public List<?> getData() {
 		return data;
 	}
 
 	public void setData(List<?> data) {
 		this.data = data;
+	}
+
+	public String getMsg() {
+		return msg;
+	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
 	}
 }

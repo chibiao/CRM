@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjetc.mapper.SerCjMapper">
+   <insert id="add" parameterType="SerCj">
+      insert into `ser-cj`(id,types,description,custom,state,req,cname,ctime) values(#{id},#{types},#{description},#{custom},#{state},#{req},#{cname},#{ctime})
+   </insert>
+   <select id="listSerCj" resultType="SerCj">
+           select * from `ser-cj`
+   </select>
+   <select id="teaList1" parameterType="map" resultType="sercj">
+	   select * from `ser-cj` where state=0
+	   <if test="custom!=null and custom!=''">
+	    and custom like '%${custom}%'
+	   </if>
+	    <if test="id!=null and id!=''">
+	     and id like '%${id}%'
+	   </if>
+	   <if test="types!=null and types!=0 and types!=''">
+	     and types =#{types}
+	   </if>	 
+	</select>
+	<select id="getById" parameterType="string" resultType="sercj">
+           select * from `ser-cj` where id=#{id}
+    </select>
+    
+    <update id="update" parameterType="string">
+            update `ser-cj` set state=1 where id=#{id}
+    </update>
+   
+    <!--客户经理-->
+   	<select id="getIdRole" resultType="user">
+   		select u.* from `user_role_rel` r,user u where r.uid = u.id and rid = 3
+    </select>
+    
+    <select id="getByIdChuli" parameterType="string" resultMap="sercjMap">
+    	select * from `ser-cj` where id = #{id}
+    </select>
+    <resultMap  type="serCj" id="sercjMap">
+    	<id column="id" property="id"/>
+     	<result column="custom" property="custom"/>
+     	<result column="description" property="description"/>
+     	<result column="types" property="types"/>
+     	<result column="req" property="req"/>
+     	<result column="cname" property="cname"/>
+     	<result column="ctime" property="ctime"/>
+     	<association property="serfp" column="id" select="getIdFenpei"></association>
+    </resultMap>
+    <select id="getIdFenpei" resultType="serFp">
+        select * from `ser-fp` where id=#{value}
+    </select>
+    <!-- 处理 -->
+    <update id="updateChuLi" parameterType="string">
+            update `ser-cj` set state=2 where id=#{id}
+    </update>
+   
+   <!-- 张雪婷 -->
+      <!--查询需要反馈的list-->
+   <select id="listCj" resultMap="sercjMapz">
+        SELECT * FROM `ser-cj` where state=3
+    </select>   
+    <resultMap type="serCj" id="sercjMapz">
+      <id column="id" property="id"/>
+      <result column="custom" property="custom"/>
+      <result column="description" property="description"/>
+      <result column="types" property="types"/>
+      <association property="sercl" column="id" select="getIdCl"></association>
+      <association property="serfp" column="id" select="getIdFp"></association>
+     <association property="serresult" column="id" select="getIdRes"></association> 
+    </resultMap>
+    <select id="getIdCl" resultType="serCl">
+        select * from `ser-cl` where id=#{value}
+    </select>
+    
+    <!--根据id查询-->
+    <select id="getByIdz" parameterType="string" resultMap="sercjMapz">
+     	SELECT * FROM `ser-cj` where id=#{id}
+    </select>
+   
+     <select id="getIdFp" resultType="serFp">
+        select * from `ser-fp` where id=#{id}
+    </select>
+      <select id="getIdRes" resultType="serResult">
+        select * from `ser-result` where id=#{id}
+    </select> 
+    <!--模糊查询加分页  -->
+    <select id="teaList2" parameterType="map" resultMap="sercjMapz">
+	   select * from `ser-cj` where state = 2
+	   <if test="custom!=null and custom!=''">
+	    and custom like '%${custom}%'
+	   </if>
+	    <if test="id!=null and id!=''">
+	     and id like '%${id}%'
+	   </if>
+	   <if test="types!=null and types!=0 and types!=''">
+	     and types =#{types}
+	   </if>	 
+	</select>
+	
+	<!--修改cj表的状态-->
+	<update id="updateGui" parameterType="string">
+		update `ser-cj` set state = 3 where id = #{value}
+	</update>
+	<update id="updateFen" parameterType="string">
+		update `ser-cj` set state = 1 where id = #{value}
+	</update>
+	
+	<!--添加result表-->
+	<insert id="addRes" parameterType="serResult">
+		insert into `ser-result`(id,result,satisfied) values(#{id},#{result},#{satisfied})
+	</insert>
+	
+	<!--需要归档的list-->
+	<select id="teaListGui" parameterType="map" resultMap="sercjMapz">
+	   select * from `ser-cj` where state = 3
+	   <if test="custom!=null and custom!=''">
+	    and custom like '%${custom}%'
+	   </if>
+	    <if test="id!=null and id!=''">
+	     and id like '%${id}%'
+	   </if>
+	   <if test="types!=null and types!=0 and types!=''">
+	     and types =#{types}
+	   </if>	 
+	</select>
+	
+	
+	<select id="getResult" resultType="serResult">
+        select * from `ser-result` where id=#{id}
+    </select> 
+    <update id="updateRes" parameterType="serResult">
+		update `ser-result` set result =#{result},satisfied=#{satisfied} where id = #{id}
+	</update>
+</mapper>

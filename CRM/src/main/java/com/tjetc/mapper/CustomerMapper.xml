@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tjetc.mapper.CustomerMapper">
+	<select id="listrank" resultType="customerAnalyze">
+		SELECT r.rname name,count(*) num from customer c,cus_rank r WHERE c.rid=r.rid
+		GROUP BY c.rid
+	</select>
+	<select id="listCre" resultType="customerAnalyze">
+		select r.rname name,c.cusCredi,count(*) num from customer c ,cus_rank r where c.rid=r.rid GROUP BY cusCredi
+	</select>
+	<select id="listSati" resultType="customerAnalyze">
+		select r.rname name,c.cusSati,count(*) num from customer c ,cus_rank r where c.rid=r.rid GROUP BY cusSati
+	</select>
+	<select id="list1" resultType="customerAnalyze">
+		select r.rname name,COUNT(*) num from customer c,orders o,cus_rank r where o.cid=c.id and r.rid=c.rid GROUP BY r.rid	
+	</select>
+	<select id="list2" resultType="customerAnalyze">
+		select z.cusName name,z.rname,z.rid,COUNT(*) num from (SELECT c.id,c.cusName,r.rid,r.rname from customer c RIGHT JOIN cus_rank r on c.rid=r.rid ) z RIGHT JOIN orders o on o.cid=z.id GROUP BY z.id ORDER BY z.rid	
+	</select>
+	
+	<!-- 马 -->
+	 <resultMap id="BaseResultMap" type="com.tjetc.pojo.Customer" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="cusId" property="cusid" jdbcType="VARCHAR" />
+    <result column="cusName" property="cusname" jdbcType="VARCHAR" />
+    <result column="cusRegion" property="cusregion" jdbcType="VARCHAR" />
+    <result column="cusAddr" property="cusaddr" jdbcType="VARCHAR" />
+    <result column="cusCreateTime" property="cuscreatetime" jdbcType="VARCHAR" />
+    <result column="cusFax" property="cusfax" jdbcType="VARCHAR" />
+    <result column="cusZip" property="cuszip" jdbcType="VARCHAR" />
+    <result column="cusWebSite" property="cuswebsite" jdbcType="VARCHAR" />
+    <result column="chieftain" property="chieftain" jdbcType="VARCHAR" />
+    <result column="cusManagerId" property="cusmanagerid" jdbcType="INTEGER" />
+    <result column="bank" property="bank" jdbcType="VARCHAR" />
+    <result column="bankAcount" property="bankacount" jdbcType="VARCHAR" />
+    <result column="cusStatus" property="cusstatus" jdbcType="INTEGER" />
+    <result column="rid" property="rid" jdbcType="INTEGER" />
+    <result column="logo" property="logo" jdbcType="VARCHAR" />
+    <result column="cusSati" property="cussati" jdbcType="INTEGER" />
+    <result column="cusCredi" property="cuscredi" jdbcType="INTEGER" />
+  </resultMap>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from customer
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.tjetc.pojo.Customer" >
+    insert into customer (id, cusId, cusName, 
+      cusRegion, cusAddr, cusCreateTime, 
+      cusFax, cusZip, cusWebSite, 
+      chieftain, cusManagerId, bank, 
+      bankAcount, cusStatus, rid, 
+      logo, cusSati, cusCredi
+      )
+    values (#{id,jdbcType=INTEGER}, #{cusid,jdbcType=VARCHAR}, #{cusname,jdbcType=VARCHAR}, 
+      #{cusregion,jdbcType=VARCHAR}, #{cusaddr,jdbcType=VARCHAR}, #{cuscreatetime,jdbcType=VARCHAR}, 
+      #{cusfax,jdbcType=VARCHAR}, #{cuszip,jdbcType=VARCHAR}, #{cuswebsite,jdbcType=VARCHAR}, 
+      #{chieftain,jdbcType=VARCHAR}, #{cusmanagerid,jdbcType=INTEGER}, #{bank,jdbcType=VARCHAR}, 
+      #{bankacount,jdbcType=VARCHAR}, #{cusstatus,jdbcType=INTEGER}, #{rid,jdbcType=INTEGER}, 
+      #{logo,jdbcType=VARCHAR}, #{cussati,jdbcType=INTEGER}, #{cuscredi,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.tjetc.pojo.Customer" >
+    update customer
+    set cusId = #{cusid,jdbcType=VARCHAR},
+      cusName = #{cusname,jdbcType=VARCHAR},
+      cusRegion = #{cusregion,jdbcType=VARCHAR},
+      cusAddr = #{cusaddr,jdbcType=VARCHAR},
+      cusCreateTime = #{cuscreatetime,jdbcType=VARCHAR},
+      cusFax = #{cusfax,jdbcType=VARCHAR},
+      cusZip = #{cuszip,jdbcType=VARCHAR},
+      cusWebSite = #{cuswebsite,jdbcType=VARCHAR},
+      chieftain = #{chieftain,jdbcType=VARCHAR},
+      cusManagerId = #{cusmanagerid,jdbcType=INTEGER},
+      bank = #{bank,jdbcType=VARCHAR},
+      bankAcount = #{bankacount,jdbcType=VARCHAR},
+      cusStatus = #{cusstatus,jdbcType=INTEGER},
+      rid = #{rid,jdbcType=INTEGER},
+      logo = #{logo,jdbcType=VARCHAR},
+      cusSati = #{cussati,jdbcType=INTEGER},
+      cusCredi = #{cuscredi,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select  id="selectOandC"  resultType="OrderCustomer">
+  		SELECT c.id,c.cusname name,SUM(o.orderTotal) price FROM orders o,customer c where o.cid=c.id GROUP BY c.id;
+  </select>
+  <select  id="selectCtoObyCid"  parameterType="String"  resultType="Orders">
+  		SELECT orderTotal,time from orders o,customer c where o.cid=c.id and c.cusName=#{name} ORDER BY time;
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, cusId, cusName, cusRegion, cusAddr, cusCreateTime, cusFax, cusZip, cusWebSite, 
+    chieftain, cusManagerId, bank, bankAcount, cusStatus, rid, logo, cusSati, cusCredi
+    from customer
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, cusId, cusName, cusRegion, cusAddr, cusCreateTime, cusFax, cusZip, cusWebSite, 
+    chieftain, cusManagerId, bank, bankAcount, cusStatus, rid, logo, cusSati, cusCredi
+    from customer
+  </select>
+  
+  <select id="list" resultType="customer">
+		select * from customer
+	</select>
+	<select id="getUserList" resultType="user">
+		select * from user
+	</select>
+	<select id="getRankList" resultType="cusRank">
+		select * from cus_rank
+	</select>
+	<select id="getCount" resultType="int">
+		select count(*) from customer
+	</select>
+	<select id="getById" parameterType="int" resultType="customer">
+		select * from customer where id=#{cusid}
+	</select>
+	<select id="getUserById" parameterType="int" resultType="user">
+		select * from user where id=#{id}
+	</select>
+	<update id="del" parameterType="int" >
+		delete from customer where id=#{id}
+	</update>
+	<select id="getLinkMansByCid"  parameterType="int" resultType="cusLinkman">
+		select * from cus_linkman where cid=#{cusid}
+	</select>
+	<select id="getContact"  parameterType="int" resultType="cusContact">
+		select * from cus_contact where cid=#{cusid}
+	</select>
+	<update id="updateCus" parameterType="customer">
+		update customer set cusStatus = #{cusStatus} where id=#{id}
+	</update>
+	<insert id="add" parameterType="customer">
+		insert into customer(cusId,cusName,cusRegion,cusAddr,cusCreateTime,cusFax,cusZip,cusWebSite,chieftain,cusManagerId,bank,bankAcount,cusStatus,rid,logo,cusSati,cusCredi) values(#{cusid},#{cusname},#{cusregion},#{cusaddr},#{cuscreatetime},#{cusfax},#{cuszip},#{cuswebsite},#{chieftain},#{cusmanagerid},#{bank},#{bankacount},#{cusstatus},#{rid},#{logo},#{cussati},#{cuscredi})
+	</insert>
+	<update id="update" parameterType="customer">
+		update customer set cusName = #{cusname},cusRegion=#{cusregion},cusAddr=#{cusaddr},cusCreateTime=#{cuscreatetime},cusFax=#{cusfax},cusZip=#{cuszip},cusWebSite=#{cuswebsite},chieftain=#{chieftain},cusManagerId=#{cusmanagerid},bank=#{bank},bankAcount=#{bankacount},cusStatus=#{cusstatus},rid=#{rid},logo=#{logo},cusSati=#{cussati},cusCredi=#{cuscredi} where id=#{id}
+	</update>
+</mapper>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tjetc.mapper.GoodsMapper">
+	<!--############# 增加新闻 ###################################### -->
+	<insert id="doCreateGoods" parameterType="com.tjetc.pojo.Goods">
+		insert into goods (title,type,level,unit,price,count,content,storehouse,birthday)
+		values(#{title},#{type},#{level},#{unit},#{price},#{count},#{content},#{storehouse},#{birthday})
+	</insert>
+
+	<!--############# 列表新闻 ###################################### -->
+	<select id="findAllGoods" parameterType="com.tjetc.utils.QueryVo"
+		resultType="com.tjetc.pojo.Goods">
+		select * from goods
+		<where>
+			<if test="keyword!=null and keyword!='' ">
+				title like '%${keyword}%' or type like '%${keyword}%' or storehouse like
+				'%${keyword}%'	
+			</if>
+		</where>
+		
+	</select>
+
+	<!--############# 根据id查新闻 ###################################### -->
+	<select id="findGoodsById" parameterType="int" resultType="com.tjetc.pojo.Goods">
+		select * from goods where gid =#{value};
+	</select>
+	
+
+	<!--############# 根据id更新新闻 ###################################### -->
+	<update id="updateGoodsById" parameterType="com.tjetc.pojo.Goods">
+		update goods set title=#{title},type=#{type},level=#{level},unit=#{unit},content=#{content},price=#{price},count=#{count},storehouse=#{storehouse},birthday=#{birthday}
+		where gid=#{gid};
+	</update>
+     <!--#############  删除新闻    ######################################  -->
+	<delete id="doRemoveGoods" parameterType="int">
+		delete from goods where gid=#{value};
+	</delete>
+</mapper>

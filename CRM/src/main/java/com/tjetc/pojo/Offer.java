@@ -1,12 +1,15 @@
 package com.tjetc.pojo;
+
+import java.text.DecimalFormat;
+
 /*
- * 报价 实体类
+ * 报价单 实体类
  * zc hjw
- * 201907716
+ * 20190717 10:16
  */
 public class Offer {
 	private Integer offerId;// 报价单编号
-	private Integer orderId;// 订单编号
+	private String orderId;// 订单编号
 	private Integer managerId;// 管理员编号
 	private Integer offerState;// 报价状态 null:未审核 0:未通过 1:已通过
 	private String productName;// 产品名称
@@ -17,6 +20,16 @@ public class Offer {
 	private Double profitOrLoss;// 损益报价
 	private Double total;// 合计
 
+	private User manager;// 绑定管理员对象
+
+	public User getManager() {
+		return manager;
+	}
+
+	public void setManager(User manager) {
+		this.manager = manager;
+	}
+
 	public Integer getOfferId() {
 		return offerId;
 	}
@@ -25,11 +38,11 @@ public class Offer {
 		this.offerId = offerId;
 	}
 
-	public Integer getOrderId() {
+	public String getOrderId() {
 		return orderId;
 	}
 
-	public void setOrderId(Integer orderId) {
+	public void setOrderId(String orderId) {
 		this.orderId = orderId;
 	}
 
@@ -102,16 +115,19 @@ public class Offer {
 	}
 
 	public void setTotal(Double total) {
+		/*this.total = Double.parseDouble(new DecimalFormat("#.00").format(total));*/
 		this.total = total;
 	}
 
 	public Offer() {
 		super();
-		this.total = this.quodation + this.implQuodation + this.servQuodation + this.specQuodation + this.profitOrLoss;
+		// this.total = this.quodation + this.implQuodation + this.servQuodation
+		// + this.specQuodation + this.profitOrLoss;
 	}
 
-	public Offer(Integer offerId, Integer orderId, Integer managerId, Integer offerState, String productName,
-			Double quodation, Double implQuodation, Double servQuodation, Double specQuodation, Double profitOrLoss) {
+	public Offer(Integer offerId, String orderId, Integer managerId, Integer offerState, String productName,
+			Double quodation, Double implQuodation, Double servQuodation, Double specQuodation, Double profitOrLoss,
+			Double total, User manager) {
 		super();
 		this.offerId = offerId;
 		this.orderId = orderId;
@@ -123,11 +139,12 @@ public class Offer {
 		this.servQuodation = servQuodation;
 		this.specQuodation = specQuodation;
 		this.profitOrLoss = profitOrLoss;
-		this.total = this.quodation + this.implQuodation + this.servQuodation + this.specQuodation + this.profitOrLoss;
+		this.total = total;
+		this.manager = manager;
 	}
 
-	public Offer(Integer orderId, Integer managerId, Integer offerState, String productName, Double quodation,
-			Double implQuodation, Double servQuodation, Double specQuodation, Double profitOrLoss) {
+	public Offer(String orderId, Integer managerId, Integer offerState, String productName, Double quodation,
+			Double implQuodation, Double servQuodation, Double specQuodation, Double profitOrLoss, Double total) {
 		super();
 		this.orderId = orderId;
 		this.managerId = managerId;
@@ -138,7 +155,7 @@ public class Offer {
 		this.servQuodation = servQuodation;
 		this.specQuodation = specQuodation;
 		this.profitOrLoss = profitOrLoss;
-		this.total = this.quodation + this.implQuodation + this.servQuodation + this.specQuodation + this.profitOrLoss;
+		this.total = total;
 	}
 
 	@Override
@@ -153,7 +170,7 @@ public class Offer {
 				+ (servQuodation != null ? "servQuodation=" + servQuodation + ", " : "")
 				+ (specQuodation != null ? "specQuodation=" + specQuodation + ", " : "")
 				+ (profitOrLoss != null ? "profitOrLoss=" + profitOrLoss + ", " : "")
-				+ (total != null ? "total=" + total : "") + "]";
+				+ (total != null ? "total=" + total + ", " : "") + (manager != null ? "manager=" + manager : "") + "]";
 	}
 
 }

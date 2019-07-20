@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tjetc.mapper.OfferMapper" >
+	<select id="ordersList" resultType="string">
+		select orderid from orders
+	</select>
+	
+	<update id="updateById" parameterType="offer">
+		update offer 
+		set quodation=#{quodation}, impl_quodation=#{implQuodation}, 
+			serv_quodation=#{servQuodation}, spec_quodation=#{specQuodation}, 
+			profit_or_loss=#{profitOrLoss}, total=#{total}, offer_state=null
+		where offer_id=#{offerId}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		delete from offer where offer_id=#{value}
+	</delete>
+
+	<update id="examine" parameterType="int">
+		update offer set offer_state=#{state} where offer_id=#{offerId}
+	</update>
+
+	<select id="managerList" resultType="user">
+		select u.* from user u,user_role_rel urr where u.id=urr.uid and urr.rid=3
+	</select>
+
+
+  <resultMap id="BaseResultMap" type="com.tjetc.pojo.Offer" >
+    <id column="offer_id" property="offerId" jdbcType="INTEGER" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="manager_id" property="managerId" jdbcType="INTEGER" />
+    <result column="offer_state" property="offerState" jdbcType="INTEGER" />
+    <result column="product_name" property="productName" jdbcType="VARCHAR" />
+    <result column="quodation" property="quodation" jdbcType="DOUBLE" />
+    <result column="impl_quodation" property="implQuodation" jdbcType="DOUBLE" />
+    <result column="serv_quodation" property="servQuodation" jdbcType="DOUBLE" />
+    <result column="spec_quodation" property="specQuodation" jdbcType="DOUBLE" />
+    <result column="profit_or_loss" property="profitOrLoss" jdbcType="DOUBLE" />
+    <result column="total" property="total" jdbcType="DOUBLE" />
+    <association column="manager_id" property="manager" select="getManager"></association>
+  </resultMap>
+  <select id="getManager" parameterType="int" resultMap="userMap">
+  	select * from user where id=#{value}
+  </select>
+  	<resultMap type="user" id="userMap" >
+		<id column="id" property="id"></id>
+		<result column="name" property="name"/>
+		<result column="password" property="password"/>
+		<result column="sex" property="sex"/>
+		<result column="phone" property="phone"/>
+		<result column="birthday" property="birthday"/>
+		<result column="userdate" property="userdate"/>
+		<result column="email" property="email"/>
+		<result column="image" property="image"/>
+		<!-- <collection column="id" property="roles" select="selRole" ofType="role"></collection> -->
+	</resultMap>
+	<!-- <select id="selRole" resultMap="roleMap">
+		select ur.uid,r.* from userRole ur, role r where r.id=ur.rid and ur.uid=#{value}
+	</select>
+	<resultMap type="role" id="roleMap">
+		<id column="id" property="id"></id>
+		<result column="name" property="name"/>
+		<collection column="id" property="powers" select="selPower" ofType="power"></collection>
+	</resultMap> -->
+	<!-- <select id="selPower" parameterType="int" resultMap="powerMap">
+		select p.* from `role-power` rp,power p where rp.rid=1 and rp.pid=p.id
+	</select>
+	<resultMap id="powerMap" type="power">
+		<id column="id" property="id"></id>
+		<result column="name" property="name"></result>
+		<collection column="id" property="secondPowers" select="selSecondPowers" ofType="secondPowers"></collection>
+	</resultMap>
+  	<select id="selSecondPowers" parameterType="int" resultMap="secondPowersMap">
+  		select p.* from `role-power` rp,power p where rp.rid=1 and rp.pid=p.id
+  	</select>
+  	<resultMap id="secondPowersMap" type="secondPower">
+  		<id column="id" property="id"></id>
+		<result column="name" property="name"></result>
+  	</resultMap> -->
+  
+  
+  
+  
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    offer_id, order_id, manager_id, offer_state, product_name, quodation, impl_quodation, 
+    serv_quodation, spec_quodation, profit_or_loss, total
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.tjetc.pojo.OfferExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from offer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from offer
+    where offer_id = #{offerId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from offer
+    where offer_id = #{offerId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.tjetc.pojo.OfferExample" >
+    delete from offer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.tjetc.pojo.Offer" >
+    insert into offer (offer_id, order_id, manager_id, 
+      offer_state, product_name, quodation, 
+      impl_quodation, serv_quodation, spec_quodation, 
+      profit_or_loss, total)
+    values (#{offerId,jdbcType=INTEGER}, #{orderId,jdbcType=VARCHAR}, #{managerId,jdbcType=INTEGER}, 
+      #{offerState,jdbcType=INTEGER}, #{productName,jdbcType=VARCHAR}, #{quodation,jdbcType=DOUBLE}, 
+      #{implQuodation,jdbcType=DOUBLE}, #{servQuodation,jdbcType=DOUBLE}, #{specQuodation,jdbcType=DOUBLE}, 
+      #{profitOrLoss,jdbcType=DOUBLE}, #{total,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjetc.pojo.Offer" >
+    insert into offer
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="offerId != null" >
+        offer_id,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="managerId != null" >
+        manager_id,
+      </if>
+      <if test="offerState != null" >
+        offer_state,
+      </if>
+      <if test="productName != null" >
+        product_name,
+      </if>
+      <if test="quodation != null" >
+        quodation,
+      </if>
+      <if test="implQuodation != null" >
+        impl_quodation,
+      </if>
+      <if test="servQuodation != null" >
+        serv_quodation,
+      </if>
+      <if test="specQuodation != null" >
+        spec_quodation,
+      </if>
+      <if test="profitOrLoss != null" >
+        profit_or_loss,
+      </if>
+      <if test="total != null" >
+        total,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="offerId != null" >
+        #{offerId,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="managerId != null" >
+        #{managerId,jdbcType=INTEGER},
+      </if>
+      <if test="offerState != null" >
+        #{offerState,jdbcType=INTEGER},
+      </if>
+      <if test="productName != null" >
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="quodation != null" >
+        #{quodation,jdbcType=DOUBLE},
+      </if>
+      <if test="implQuodation != null" >
+        #{implQuodation,jdbcType=DOUBLE},
+      </if>
+      <if test="servQuodation != null" >
+        #{servQuodation,jdbcType=DOUBLE},
+      </if>
+      <if test="specQuodation != null" >
+        #{specQuodation,jdbcType=DOUBLE},
+      </if>
+      <if test="profitOrLoss != null" >
+        #{profitOrLoss,jdbcType=DOUBLE},
+      </if>
+      <if test="total != null" >
+        #{total,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.tjetc.pojo.OfferExample" resultType="java.lang.Integer" >
+    select count(*) from offer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update offer
+    <set >
+      <if test="record.offerId != null" >
+        offer_id = #{record.offerId,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderId != null" >
+        order_id = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.managerId != null" >
+        manager_id = #{record.managerId,jdbcType=INTEGER},
+      </if>
+      <if test="record.offerState != null" >
+        offer_state = #{record.offerState,jdbcType=INTEGER},
+      </if>
+      <if test="record.productName != null" >
+        product_name = #{record.productName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quodation != null" >
+        quodation = #{record.quodation,jdbcType=DOUBLE},
+      </if>
+      <if test="record.implQuodation != null" >
+        impl_quodation = #{record.implQuodation,jdbcType=DOUBLE},
+      </if>
+      <if test="record.servQuodation != null" >
+        serv_quodation = #{record.servQuodation,jdbcType=DOUBLE},
+      </if>
+      <if test="record.specQuodation != null" >
+        spec_quodation = #{record.specQuodation,jdbcType=DOUBLE},
+      </if>
+      <if test="record.profitOrLoss != null" >
+        profit_or_loss = #{record.profitOrLoss,jdbcType=DOUBLE},
+      </if>
+      <if test="record.total != null" >
+        total = #{record.total,jdbcType=DOUBLE},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update offer
+    set offer_id = #{record.offerId,jdbcType=INTEGER},
+      order_id = #{record.orderId,jdbcType=VARCHAR},
+      manager_id = #{record.managerId,jdbcType=INTEGER},
+      offer_state = #{record.offerState,jdbcType=INTEGER},
+      product_name = #{record.productName,jdbcType=VARCHAR},
+      quodation = #{record.quodation,jdbcType=DOUBLE},
+      impl_quodation = #{record.implQuodation,jdbcType=DOUBLE},
+      serv_quodation = #{record.servQuodation,jdbcType=DOUBLE},
+      spec_quodation = #{record.specQuodation,jdbcType=DOUBLE},
+      profit_or_loss = #{record.profitOrLoss,jdbcType=DOUBLE},
+      total = #{record.total,jdbcType=DOUBLE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjetc.pojo.Offer" >
+    update offer
+    <set >
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="managerId != null" >
+        manager_id = #{managerId,jdbcType=INTEGER},
+      </if>
+      <if test="offerState != null" >
+        offer_state = #{offerState,jdbcType=INTEGER},
+      </if>
+      <if test="productName != null" >
+        product_name = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="quodation != null" >
+        quodation = #{quodation,jdbcType=DOUBLE},
+      </if>
+      <if test="implQuodation != null" >
+        impl_quodation = #{implQuodation,jdbcType=DOUBLE},
+      </if>
+      <if test="servQuodation != null" >
+        serv_quodation = #{servQuodation,jdbcType=DOUBLE},
+      </if>
+      <if test="specQuodation != null" >
+        spec_quodation = #{specQuodation,jdbcType=DOUBLE},
+      </if>
+      <if test="profitOrLoss != null" >
+        profit_or_loss = #{profitOrLoss,jdbcType=DOUBLE},
+      </if>
+      <if test="total != null" >
+        total = #{total,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where offer_id = #{offerId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjetc.pojo.Offer" >
+    update offer
+    set order_id = #{orderId,jdbcType=VARCHAR},
+      manager_id = #{managerId,jdbcType=INTEGER},
+      offer_state = #{offerState,jdbcType=INTEGER},
+      product_name = #{productName,jdbcType=VARCHAR},
+      quodation = #{quodation,jdbcType=DOUBLE},
+      impl_quodation = #{implQuodation,jdbcType=DOUBLE},
+      serv_quodation = #{servQuodation,jdbcType=DOUBLE},
+      spec_quodation = #{specQuodation,jdbcType=DOUBLE},
+      profit_or_loss = #{profitOrLoss,jdbcType=DOUBLE},
+      total = #{total,jdbcType=DOUBLE}
+    where offer_id = #{offerId,jdbcType=INTEGER}
+  </update>
+</mapper>

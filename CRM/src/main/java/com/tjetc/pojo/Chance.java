@@ -2,6 +2,10 @@ package com.tjetc.pojo;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 /*
  * 营销机会
  */
@@ -25,10 +29,14 @@ public class Chance {
 	// 创建人
 	private String founder;
 	// 创建时间
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date creattime;
 	// 指派给谁名称
 	private String assigned;
 	// 指派时间
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date assignedtime;
 	// 指派的人的id
 	private Integer assignedid;
@@ -135,5 +143,16 @@ public class Chance {
 
 	public void setAssignedid(Integer assignedid) {
 		this.assignedid = assignedid;
+	}
+
+	@Override
+	public String toString() {
+		return "Chance [id=" + id + ", chancefrom=" + chancefrom + ", cusname="
+				+ cusname + ", successpro=" + successpro + ", outline="
+				+ outline + ", contacts=" + contacts + ", phone=" + phone
+				+ ", description=" + description + ", founder=" + founder
+				+ ", creattime=" + creattime + ", assigned=" + assigned
+				+ ", assignedtime=" + assignedtime + ", assignedid="
+				+ assignedid + "]";
 	}
 }

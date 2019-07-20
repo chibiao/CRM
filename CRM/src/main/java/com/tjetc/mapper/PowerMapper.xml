@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjetc.mapper.PowerMapper">
+	<select id="list" resultType="Power">
+		select * from power where isnull(parent_id)
+		</select>
+		<select id="sonList" resultType="Power">
+		select * from power where parent_id is not null
+		</select>
+
+	
+	<select id="getcount" resultType="int">
+		select count(*) from power	
+	</select>
+	<insert id="addpower" parameterType="power" useGeneratedKeys="true">
+		insert into power(name) values (#{name})
+	</insert>
+	<delete id="del" parameterType="int">
+		delete from power where id=#{value}
+	</delete>
+	<select id="selectId" parameterType="string" resultType="power" >
+		select * from power where name=#{string}
+	</select>
+	<insert id="insert" parameterType="map">
+		insert into role_power_rel(rid,pid)  values(#{rid},#{pid})
+	</insert>
+	
+	<select id="selectPidById" parameterType="int" resultType="power">
+		select p.* from power p,role_power_rel rpr where p.id=rpr.pid and rid=#{value}
+	</select>
+	<delete id="delById" parameterType="int">
+	delete from role_power_rel where rid=#{value}
+	</delete>
+
+</mapper>

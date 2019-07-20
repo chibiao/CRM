@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tjetc.mapper.WebsystemMapper" >
+ <select id="getById" parameterType="int" resultType="websystem">
+ select * from websystem where sysremid=#{value}
+ </select>
+ <update id="update" parameterType="websystem">
+   update websystem set systemname=#{systemname},syslogoip=#{syslogoip},copyright=#{copyright},title=#{title} where sysremid=#{sysremid}
+ </update>
+</mapper>
